@@ -20,8 +20,19 @@ if ((Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash -ne '60c08c2cdd43
 ```
 
 The commands refuse to overwrite existing data and verify the downloaded bytes. They do not connect to Azure or invoke a model.
-If you regenerate embeddings, the resulting file will intentionally differ from the recorded upstream checksum.
+This downstream sample does not generate embeddings. Its explicit live gate requires the pinned upstream vector checksum.
 
 Precomputed vectors use the source model/dimensions documented upstream. The .NET vector-search project has a different vector-file blob from the shared comparison dataset; its original input is preserved by its own pinned URL.
 
 [Upstream data notes](https://github.com/Azure-Samples/documentdb-samples/blob/f5a2675bbf349737234d0391e3ebee24b260e06f/ai/data/README.md) and [license](https://github.com/Azure-Samples/documentdb-samples/blob/f5a2675bbf349737234d0391e3ebee24b260e06f/LICENSE.md) remain authoritative. These hashes identify inputs; they are not a separate dataset-rights grant. Retain applicable upstream notices when using the data.
+
+## Built-in safe commands
+
+From the repository root after installing runtime dependencies:
+
+```sh
+.venv/bin/python src/fixture.py download
+.venv/bin/python src/fixture.py extract
+```
+
+The first command fetches only Hotels_Vector.json; the second extracts its first 1536-dimensional vector to data/query-vector.json. Both reject overwrites/symlinks; the downloader rejects redirects and validates SHA-256/schema before opening output. Neither reads or writes environment secrets or contacts Azure. See `--help` for explicit input/output paths.
