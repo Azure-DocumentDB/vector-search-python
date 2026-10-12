@@ -9,17 +9,17 @@
 
 ## Standalone adaptations
 
-Source is at repository root. The README is rewritten for that layout, and placeholder-only configuration/data setup replaces reliance on the parent checkout.
-- Adapted source file: `.env.example`
-- Adapted source file: `README.md`
-- Adapted source file: `src/create_embeddings.py`
-- Adapted source file: `src/diskann.py`
-- Adapted source file: `src/hnsw.py`
-- Adapted source file: `src/ivf.py`
+2026-10-12 downstream safety/runtime rewrite (not an upstream revision change):
 
-Hotel fixtures are not redistributed: [data/README.md](data/README.md) pins the original input locations and checksums. Saved output, Learn-only quickstart pages, and devcontainer automation are omitted. Shared infrastructure and root monorepo CI are not copied.
+- Python 3.12.13 baseline; complete hash-locked runtime and test/security dependencies.
+- Precomputed 50x1536 hotel-vector path only. Removed the broken optional OpenAI generator/model coupling and unsafe legacy helpers; no model credentials required.
+- Strict public-Azure SRV/TLS validation before credentials/DNS, native SCRAM-SHA-256 or explicit Azure CLI OIDC with fixed audience and current PyMongo relative-expiry callback contract.
+- Explicit disposable namespace/write opt-in, isolated per-case collections, full-catalog index compatibility checks, deterministic insert-only upserts, no reset/drop/delete behavior.
+- All-case failure aggregation, independent metric-specific fixture oracle, bounded operations, sanitized CLI output, reproducible pinned fixture downloader/extractor.
+- Permanent offline failure-injection tests, separately explicit real tests, read-only SHA-pinned CI without Azure secrets/deployment.
+- README and placeholder-only process configuration rewritten as standalone instructions. Public-data source/terms remain linked in data/README.md; no hotel fixtures are redistributed.
 
-No dependency versions or vector/agent algorithms are intentionally changed. The Go agent module namespace and local data/environment-file paths are adjusted where necessary. Invalid monorepo-only npm entry points are removed rather than advertised as working commands.
+The original Microsoft MIT notice is preserved verbatim. These are downstream adaptations, not a claim of upstream authorship or automatic synchronization. Safety-contract concepts were reviewed against the independently maintained Azure-DocumentDB Go sibling samples; Python uses its actual driver APIs rather than a language-blind translation.
 
 ## Maintenance
 

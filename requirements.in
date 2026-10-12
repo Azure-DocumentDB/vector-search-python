@@ -1,0 +1,3 @@
+# Runtime-only dependencies; Python 3.12+. Refresh locks deliberately with uv.
+pymongo>=4.18.3,<5
+azure-identity>=1.26.0,<2
