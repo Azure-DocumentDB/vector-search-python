@@ -1,16 +1,25 @@
-# Verification scope
+# Validation record — 2026-10-12
 
-## Local verification — 2026-10-12
+## Managed Azure result
 
-- Python 3.12.13; PyMongo 4.18.3; Azure Identity 1.26.0; pytest 9.1.1.
-- Hash-locked runtime and development dependencies install successfully in an isolated environment; dependency compatibility and compile checks pass.
-- **86 passed, zero skipped** in the permanent offline failure-injection suite. Coverage includes strict URI/TLS/destination validation, pre-credential rejection, actual installed PyMongo OIDC callback result/expiry contract, fixed audience, token failures, client/credential closure, deterministic insert-only reruns, populated-unindexed collections, full catalog semantic conflicts, partial writes, metric-specific oracle, schema, sanitized/nonzero CLI failures, all-case aggregation, deadlines, safe file output and explicit live refusal. These fake-client tests are **not** an Azure engine/authentication proof.
-- pip-audit 2.10.1: current OSV and PyPI advisory queries against all 42 pinned runtime/test/scanner packages report **no known vulnerabilities** on this date. This is a time-bounded dependency advisory result, not a general security guarantee.
-- Actual public pinned fixture downloader and extractor run successfully: SHA-256 `60c08c2cdd439444ba8601d94a1f3487f4a9ee56cd48ba201d983c96722de6e4`, 50 documents, 1536 dimensions, self-query extracted. No model/Azure call was made by these operations.
-- Explicit `tests_live` invocation without `VECTOR_SEARCH_LIVE_TEST=1` fails (does not skip), before network access.
+**6/6 algorithm/authentication cases passed** on a disposable managed Azure DocumentDB M30 in West US2, one shard, MongoDB8.0 compatibility,128GiB storage and high availability disabled. The matrix is IVF/HNSW/DiskANN × COS, repeated under native SCRAM-SHA-256 and Microsoft Entra OIDC with verified TLS and a client-IP firewall.
 
-## Managed Azure proof remains separate
+Tested implementation: `7ed5bb4756199c46b8d2a84452bc6651f59e9b1c`. The later commit containing this record changes only documentation.
 
-The source/tests above do **not** establish a successful managed Azure run. Before declaring the full walkthrough verified, run the documented pinned live gates on an approved eligible cluster under **native SCRAM and Entra OIDC** with separate collection prefixes. Record exact commit, Python/dependency versions, service tier, case outcomes, idempotent second-run counts and cleanup confirmation without credentials/resource identifiers.
+The fixture contains50pinned public hotel records with1536-dimensional precomputed vectors; the query is the first stored vector. Actual index definitions were checked. Every case returned five results checked against a numeric reference appropriate to its metric; raw scores from different metrics are not comparable. This is not a semantic-quality, latency/throughput, production-size ANN or service-tier support benchmark.
 
-S0 is not eligible for the required full vector gate. Unsupported tier/region, absent permissions, connectivity or a failed algorithm must remain a failed/unverified result; no mock substitutes for a real gate. Optional OpenAI generation is not supported or claimed. Production scale, performance, semantic relevance, custom datasets and other clouds are outside this proof.
+Actual command-line execution and repeat runs were checked, not merely client construction. Repeated seeding inserted zero duplicates. An unrelated sentinel survived in every exercised collection. Existing user edits were preserved by insert-only seeding or safely refused as a fixture conflict; no test path dropped/reset/replaced existing data or indexes.
+
+Each CLI also rejected disabled write consent, a system database target, a foreign host and an incorrect native password with a nonzero exit and without printing credentials. No model calls or Azure OpenAI account were required.
+
+## Local checks
+
+Python3.12.13, PyMongo4.18.3 and Azure Identity1.26.0.86 offline tests pass, none skipped. Hash-locked runtime/dev dependencies install and compile; pip-audit against OSV and PyPI reports no known vulnerabilities in42pinned packages. Explicit live selection without consent fails before network.
+
+Full repository history and tracked publication files were scanned for secrets with no matches. MIT licensing and pinned upstream provenance remain. Scans are point-in-time findings, not a guarantee of absolute security. CI uses pinned GitHub-owned actions, read-only permissions and no cloud credentials or deployment steps.
+
+## Scope and cleanup
+
+This repository supports precomputed database/vector workflows only; live embedding/model generation was removed rather than falsely advertised as tested. The available subscription's model-service eligibility is not needed by the quickstart. No model-backed end-to-end, high availability, backup recovery, production capacity or broader cloud support is claimed.
+
+Testing used isolated disposable namespaces, not existing customer data. Environment owners are responsible for deliberately removing their test resources; the sample never automatically deletes databases/collections/indexes. The release operator verifies deletion of the shared test resource group and hosted CI before publication. No credentials, subscription identifiers or private infrastructure details are included here.
